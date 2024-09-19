@@ -1,13 +1,14 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Production {
     private String nonTerminalKey;
     private String[] symbols;
-    private ArrayList<String> actions = new ArrayList<String>();
+    private final ArrayList<String> actions = new ArrayList<>();
 
-    public Production(String nonTerminalKey, String... symbols){
-        setNonTerminalKey(nonTerminalKey);
-        setSymbols(symbols);
+    public Production(String nonTerminalKey, String... symbols) {
+        this.nonTerminalKey = nonTerminalKey;  // Asignar directamente en lugar de usar setter
+        this.symbols = symbols;  // Asignar directamente en lugar de usar setter
     }
 
     public String getNonTerminalKey() {
@@ -26,13 +27,11 @@ public class Production {
         this.symbols = symbols;
     }
 
-    public ArrayList<String> getActions(){
+    public ArrayList<String> getActions() {
         return actions;
     }
 
-    public void setActions(String... _actions){
-        for (String action : _actions){
-            actions.add(action);
-        }
+    public void setActions(String... _actions) {
+        Collections.addAll(actions, _actions);
     }
 }
