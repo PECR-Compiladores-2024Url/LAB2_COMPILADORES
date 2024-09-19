@@ -13,7 +13,7 @@ public class UI {
             Scanner in = new Scanner(System.in);
             String input = in.nextLine();
             ArrayList<Lexema> tokens = analizadorLexico.getLexicalTokens(input);
-            int result = analizadorSintactico.parse(tokens); 
+            int result = analizadorSintactico.parse(tokens);
 
             if (result == SyntaxAnalyzer.RESULT_ACCEPT){
                 System.out.println("Escaneo exitoso");

@@ -1,47 +1,36 @@
-import java.util.HashMap;
 import java.util.ArrayList;
 
 public class SemanticAnalyzer {
 
-    private HashMap<String, SymbolItem> symbolsTable;
-
-    public SemanticAnalyzer(){
-        symbolsTable = new HashMap<String, SymbolItem>();
-    }
-
-    public void ExecuteOperation(String operation, ArrayList<GrammarSymbol> lexemas, GrammarSymbol symbol) throws Exception{
+    public void ExecuteOperation(String operation, ArrayList<GrammarSymbol> lexemas, GrammarSymbol symbol) throws Exception {
         switch (operation) {
-
-            case "sum_e_and_t_save_value":
-                executeSum(operation, lexemas, ((Lexema)lexemas.get(4)).getSymbol());    
-            break;
-        
-            default:
-                break;
+            case "sum_e_and_t_save_value" -> executeSum(lexemas, symbol);
+            case "mult_t_and_f_save_value" -> executeMultiplication(lexemas, symbol);
+            default -> throw new Exception("Operación no definida: " + operation);
         }
     }
 
-    private void executeSum(String operation, ArrayList<GrammarSymbol> lexemas, String variableType) throws Exception{
+    private void executeSum(ArrayList<GrammarSymbol> lexemas, GrammarSymbol symbol) throws Exception {
+        Lexema lexema1 = (Lexema) lexemas.get(0);
+        Lexema lexema2 = (Lexema) lexemas.get(2);
 
-    // Extraer los valores de los lexemas
-    //Lexema lexema1 = (Lexema) lexemas.get(0); // Primer operando
-    //Lexema lexema2 = (Lexema) lexemas.get(2); // Segundo operando
+        int value1 = Integer.parseInt(lexema1.getValue());
+        int value2 = Integer.parseInt(lexema2.getValue());
 
-    // Convertir a enteros (o cualquier tipo numérico)
-    //int value1 = Integer.parseInt(lexema1.getValue());
-    //int value2 = Integer.parseInt(lexema2.getValue());
+        int result = value1 + value2;
 
-    // Realizar la suma
-    //int result = value1 + value2;
-
-    // Guardar el resultado en el símbolo actual
-    //symbol.setValue(String.valueOf(result));
-
-    // También podrías guardar el resultado en la tabla de símbolos si es necesario
-    //SymbolItem symbolItem = new SymbolItem(symbol.getSymbol(), symbol.getValue(), "int");
-    //symbolsTable.put(symbol.getSymbol(), symbolItem);
-
-    //System.out.println("Resultado de la suma: " + result);
+        symbol.setValue(String.valueOf(result));
     }
-    
+
+    private void executeMultiplication(ArrayList<GrammarSymbol> lexemas, GrammarSymbol symbol) throws Exception {
+        Lexema lexema1 = (Lexema) lexemas.get(0);
+        Lexema lexema2 = (Lexema) lexemas.get(2);
+
+        int value1 = Integer.parseInt(lexema1.getValue());
+        int value2 = Integer.parseInt(lexema2.getValue());
+
+        int result = value1 * value2;
+
+        symbol.setValue(String.valueOf(result));
+    }
 }
