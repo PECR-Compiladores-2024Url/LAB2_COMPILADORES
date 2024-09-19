@@ -28,19 +28,19 @@ public class SyntaxAnalyzer {
         productions.put(2, new Production("<T>", "<T>", "*", "<F>"));
         productions.get(2).getActions().add("mult_t_and_f_save_value");
 
-        productions.put(3, new Production("<E>", "<T>"));
-        productions.put(4, new Production("<T>", "<F>"));
-        productions.put(5, new Production("<F>", "num"));
+        productions.put(3, new Production("<E>", "<T>")); // Producción para E -> T
+        productions.put(4, new Production("<T>", "<F>")); // Producción para T -> F
+        productions.put(5, new Production("<F>", "num")); // Producción para F -> num
     }
 
     private void createParsingTable() {
-        for (int i = 0; i <= 11; i++) {
+        for (int i = 0; i <= 9; i++) {
             parsingTable.put(i, new HashMap<>());
         }
 
         // Estado 0
-        parsingTable.get(0).put("num", new Operation(Operation.SHIFT, 5));
-        parsingTable.get(0).put("(", new Operation(Operation.SHIFT, 4));
+        parsingTable.get(0).put("num", new Operation(Operation.SHIFT, 5)); // Manejar token num
+        parsingTable.get(0).put("(", new Operation(Operation.SHIFT, 4));  // Manejar paréntesis
         parsingTable.get(0).put("<E>", new Operation(Operation.GOTO, 1));
         parsingTable.get(0).put("<T>", new Operation(Operation.GOTO, 2));
         parsingTable.get(0).put("<F>", new Operation(Operation.GOTO, 3));
@@ -62,18 +62,17 @@ public class SyntaxAnalyzer {
         parsingTable.get(5).put("$", new Operation(Operation.REDUCE, 5));
 
         // Estado 6: Después de encontrar el operador +
-        parsingTable.get(6).put("num", new Operation(Operation.SHIFT, 5));
+        parsingTable.get(6).put("num", new Operation(Operation.SHIFT, 5)); // Procesar el siguiente número después del operador
         parsingTable.get(6).put("(", new Operation(Operation.SHIFT, 4));
         parsingTable.get(6).put("<T>", new Operation(Operation.GOTO, 8));
 
         // Estado 7: Después de encontrar el operador *
-        parsingTable.get(7).put("num", new Operation(Operation.SHIFT, 5));
-        parsingTable.get(7).put("(", new Operation(Operation.SHIFT, 4));
-        parsingTable.get(7).put("<F>", new Operation(Operation.GOTO, 9));
+        parsingTable.get(7).put("num", new Operation(Operation.SHIFT, 5)); // Procesar el siguiente número después del operador *
+        parsingTable.get(7).put("<F>", new Operation(Operation.GOTO, 9));  // Transición a F
 
         // Estado 8: Finalizar la suma
         parsingTable.get(8).put("+", new Operation(Operation.REDUCE, 1)); // Reducir a E -> E + T
-        parsingTable.get(8).put("*", new Operation(Operation.SHIFT, 7)); // Continuar con multiplicación
+        parsingTable.get(8).put("*", new Operation(Operation.SHIFT, 7));  // Continuar con multiplicación
         parsingTable.get(8).put(")", new Operation(Operation.REDUCE, 1));
         parsingTable.get(8).put("$", new Operation(Operation.REDUCE, 1));
 
@@ -101,7 +100,7 @@ public class SyntaxAnalyzer {
                     switch (toDo.getType()) {
                         case Operation.SHIFT -> {
                             parsingStack.push(token);
-                            parsingStack.push(new GrammarSymbol(GrammarSymbol.STATE, String.valueOf(toDo.getState())));  // Corrección de conversión de String
+                            parsingStack.push(new GrammarSymbol(GrammarSymbol.STATE, String.valueOf(toDo.getState())));  // Conversión de String
                         }
                         case Operation.REDUCE -> {
                             Production prod = productions.get(toDo.getProduction());
@@ -153,7 +152,7 @@ public class SyntaxAnalyzer {
                             parsingStack.push(nonTerminalKeyProd);
                         }
                         case Operation.ACCEPT -> {
-                            System.out.println("Aceptado!"); // Depuración de aceptación
+                            System.out.println("Aceptado!");
                             return RESULT_ACCEPT;
                         }
                         default -> {
