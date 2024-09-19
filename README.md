@@ -1,5 +1,6 @@
 **INSTRUCCIONES DE EJECUCIÓN**
-Para ejecutar el programa cd hasta llegar a:
-1.  04_TraduccionDirigidaPorSintaxis/src 
-2. luego ejecutar: javac *.java
+
+Para ejecutar el programa: 
+1. cd hasta llegar a: 04_TraduccionDirigidaPorSintaxis/src 
+2. Luego ejecutar: javac *.java
 3. Java UI
