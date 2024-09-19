@@ -4,11 +4,6 @@ import java.util.regex.Pattern;
 
 public class LexicalAnalyzer {
 
-    // Terminal tokens defined in the grammar
-     private static final String[] TERMINALS = {
-        "num", "+", "*", "(", ")"
-    };
-
     // Patterns for matching tokens
     private static final Pattern TOKEN_PATTERN = Pattern.compile(
         "\\b([0-9])\\b|[\\+\\*\\(\\)]"
@@ -20,31 +15,29 @@ public class LexicalAnalyzer {
      * @return ArrayList<String> containing the lexical tokens.
      */
     public static ArrayList<Lexema> getLexicalTokens(String input) {
-        ArrayList<Lexema> tokens = new ArrayList<Lexema>();
+        ArrayList<Lexema> tokens = new ArrayList<>();
         Matcher matcher = TOKEN_PATTERN.matcher(input);
 
         // Find all matching tokens
         while (matcher.find()) {
-
             String token = matcher.group();
+            System.out.println("Token encontrado: " + token); // Depuración de tokens
 
-            if (token.matches("\\(") ) {
+            if (token.matches("\\(")) {
                 tokens.add(new Lexema("(", token));
-            } else if (token.matches("\\)") ) {
+            } else if (token.matches("\\)")) {
                 tokens.add(new Lexema(")", token));
-            } else if (token.matches("\\+") ) {
+            } else if (token.matches("\\+")) {
                 tokens.add(new Lexema("+", token));
             } else if (token.matches("\\-")) {
                 tokens.add(new Lexema("-", token));
             } else if (token.matches("[0-9]+")) {
                 tokens.add(new Lexema("num", token));
-            } 
+            }
         }
 
         tokens.add(new Lexema("$", "eof"));
 
         return tokens;
     }
-
-
 }
